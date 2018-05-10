@@ -56,10 +56,8 @@ public class Triangle {
      * @return Возвращает полупериметра;
      */
     private boolean exist(double ab, double ac, double bc) {
-        boolean result;
-        if (ab == 0 || ac == 0 || bc == 0) {
-            result = false;
-        } else {
+        boolean result = false;
+        if (ab + ac > bc || ab + bc > ac || ac + bc > ab) {
             result = true;
         }
         return result;
