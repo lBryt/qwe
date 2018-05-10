@@ -53,16 +53,16 @@ public class TicTacToe extends Application {
     }
 
     private boolean checkState() {
-        boolean isWinnerX = this.logic.isWinnerX();
-        if (isWinnerX) {
-            this.showAlert("Собрана линия с Х!");
+        boolean result;
+        if (isGap() && !checkWinner()) {
+            result = true;
+        } else {
+            result = false;
         }
+        return result;
+    }
 
-        boolean isWinnerO = this.logic.isWinnerO();
-        if (isWinnerO) {
-            this.showAlert("Собрана линия с О!");
-        }
-
+    private boolean isGap() {
         boolean gap = this.logic.hasGap();
         if (!gap) {
             this.showAlert("Все поля запонены! Начните новую Игру!");
@@ -70,12 +70,16 @@ public class TicTacToe extends Application {
         return gap;
     }
 
-    private void checkWinner() {
+    private boolean checkWinner() {
+        boolean result = false;
         if (this.logic.isWinnerX()) {
             this.showAlert("Победили Крестики! Начните новую Игру!");
+            result = true;
         } else if (this.logic.isWinnerO()) {
             this.showAlert("Победили Нолики! Начните новую Игру!");
+            result = true;
         }
+        return result;
     }
 
     private Group buildMarkX(double x, double y, int size) {
@@ -98,19 +102,22 @@ public class TicTacToe extends Application {
             Figure3T rect = (Figure3T) event.getTarget();
             if (this.checkState() && !rect.hasMarks()) {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    rect.take(true);
-                    panel.getChildren().add(
-                            this.buildMarkX(rect.getX(), rect.getY(), 50)
-                    );
-                } else if (event.getButton() == MouseButton.SECONDARY) {
-                    rect.take(false);
-                    panel.getChildren().add(
-                            this.buildMarkO(rect.getX(), rect.getY(), 50)
-                    );
+                    handlerClick(rect,  panel);
                 }
-                this.checkState();
             }
         };
+    }
+
+    void handlerClick(Figure3T rect, Group panel) {
+        boolean markX = this.logic.expectedMarkX();
+        rect.take(markX);
+        panel.getChildren().add(
+                (markX)
+                        ? this.buildMarkX(rect.getX(), rect.getY(), 50)
+                        : this.buildMarkO(rect.getX(), rect.getY(), 50)
+        );
+        this.checkState();
+        this.logic.changeExpectedMark();
     }
 
     private Group buildGrid() {

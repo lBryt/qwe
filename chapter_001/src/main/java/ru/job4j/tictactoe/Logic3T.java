@@ -1,24 +1,35 @@
 package ru.job4j.tictactoe;
 
-import javafx.scene.input.MouseButton;
-
-import java.util.Arrays;
-
 public class Logic3T {
     private final Figure3T[][] table;
     private enum Marks { X, O };
-    private static int[][][]  combinations = {
+    private Marks expectedMark = Marks.X;
+    private static int[][][] combinations = {
             {{0, 0}, {1, 0}, {2, 0}},
             {{0, 1}, {1, 1}, {2, 1}},
             {{0, 2}, {1, 2}, {2, 2}},
-
             {{0, 0}, {0, 1}, {0, 2}},
             {{1, 0}, {1, 1}, {1, 2}},
             {{2, 0}, {2, 1}, {2, 2}},
-
-            {{2, 0}, {2, 1}, {0, 2}},
+            {{2, 0}, {1, 1}, {0, 2}},
             {{0, 0}, {1, 1}, {2, 2}}
     };
+
+    public boolean expectedMarkX() {
+        boolean result = false;
+        if (this.expectedMark == Marks.X) {
+            result = true;
+        }
+        return result;
+    }
+
+    public void changeExpectedMark() {
+        if (this.expectedMark == Marks.X) {
+            this.expectedMark = Marks.O;
+        } else {
+            this.expectedMark = Marks.X;
+        }
+    }
 
     public Logic3T(Figure3T[][] table) {
         this.table = table;
@@ -49,7 +60,6 @@ public class Logic3T {
                     break;
                 }
             }
-
         }
         return result;
     }
@@ -65,7 +75,6 @@ public class Logic3T {
                 }
             }
         }
-
         return result;
     }
 }
