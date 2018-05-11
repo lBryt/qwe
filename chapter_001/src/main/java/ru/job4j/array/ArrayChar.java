@@ -18,7 +18,6 @@ public class ArrayChar {
     public boolean startWith(String prefix) {
         boolean result = true;
         char[] value = prefix.toCharArray();
-        // проверить. что массив data имеет первые элементы одинаковые с value
         if (value.length > this.data.length) {
             result = false;
         } else {

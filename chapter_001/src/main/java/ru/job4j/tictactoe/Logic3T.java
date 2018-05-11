@@ -2,8 +2,8 @@ package ru.job4j.tictactoe;
 
 public class Logic3T {
     private final Figure3T[][] table;
-    private enum Marks { X, O };
-    private Marks expectedMark = Marks.X;
+    private enum ExpectedMark { X, O };
+    private ExpectedMark mark = ExpectedMark.X;
     private static int[][][] combinations = {
             {{0, 0}, {1, 0}, {2, 0}},
             {{0, 1}, {1, 1}, {2, 1}},
@@ -17,17 +17,17 @@ public class Logic3T {
 
     public boolean expectedMarkX() {
         boolean result = false;
-        if (this.expectedMark == Marks.X) {
+        if (this.mark == ExpectedMark.X) {
             result = true;
         }
         return result;
     }
 
     public void changeExpectedMark() {
-        if (this.expectedMark == Marks.X) {
-            this.expectedMark = Marks.O;
+        if (this.mark == ExpectedMark.X) {
+            this.mark = ExpectedMark.O;
         } else {
-            this.expectedMark = Marks.X;
+            this.mark = ExpectedMark.X;
         }
     }
 
@@ -36,25 +36,25 @@ public class Logic3T {
     }
 
     public boolean isWinnerX() {
-        return combinations(Marks.X);
+        return combinations(ExpectedMark.X);
     }
 
     public boolean isWinnerO() {
-        return combinations(Marks.O);
+        return combinations(ExpectedMark.O);
     }
 
-    private boolean combinations(Marks marks) {
+    private boolean combinations(ExpectedMark marks) {
         boolean result = false;
         for (int[][] out : combinations) {
             Figure3T firstField = this.table[out[0][0]][out[0][1]];
             Figure3T secondField = this.table[out[1][0]][out[1][1]];
             Figure3T thirdField = this.table[out[2][0]][out[2][1]];
-            if (Marks.X == marks) {
+            if (ExpectedMark.X == marks) {
                 if (firstField.hasMarkX() && secondField.hasMarkX() && thirdField.hasMarkX()) {
                     result = true;
                     break;
                 }
-            } else if (Marks.O == marks) {
+            } else if (ExpectedMark.O == marks) {
                 if (firstField.hasMarkO() && secondField.hasMarkO() && thirdField.hasMarkO()) {
                     result = true;
                     break;
