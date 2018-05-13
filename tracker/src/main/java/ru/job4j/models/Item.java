@@ -11,10 +11,10 @@ public class Item {
 		
 	}
 	
-	public Item(String name, String description, long create) {
+	public Item(String name, String description) {
 		this.name = name;
 		this.description = description;
-		this.create = create;
+		//this.create = create;
 	}
 	
 	public String getName() {
@@ -24,7 +24,11 @@ public class Item {
 	public String getDescription() {
 		return this.description;
 	}
-	
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public long getCreate() {
 		return this.create; 
 	}

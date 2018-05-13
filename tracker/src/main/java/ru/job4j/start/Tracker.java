@@ -7,28 +7,39 @@ public class Tracker extends Item {
 	private Item[] items = new Item[100];
 	private int position = 0;
 	private static final Random RN = new Random();
-	
+
+	public Tracker() {
+	}
+
 	public Item add(Item item) {
 		item.setId(generateId());
 		this.items[position++] = item;
 		return item;
 	}
-	
+
 	public void replace(String id, Item item) {
 		if (findById(id) != Item.EMPTY) {
-            for (int index = 0; index != this.items.length; index++) {
-                if (this.items[index] != null && this.items[index].getId().equals(id)) {
-                    this.items[index] = item;
-                    break;
-                }
-            }
+			for (int index = 0; index != this.items.length; index++) {
+				if (this.items[index] != null && this.items[index].getId().equals(id)) {
+					this.items[index] = item;
+					break;
+				}
+			}
 		}
 	}
-	
+
 	public void delete(String id) {
-		
+		for (int index = 0; index != this.items.length; index++) {
+			if (this.items[index] != null && items[index].getId().equals(id)) {
+//				this.items[index] = items[position--];
+//				break;
+				System.arraycopy(this.items, index + 1, this.items, index, this.items.length - 1 - index);
+				position--;
+				break;
+			}
+		}
 	}
-	
+
 	public Item[] getAll() {
 		Item[] result = new Item[this.position];
 		for (int index = 0; index != position; index++) {
@@ -36,7 +47,7 @@ public class Tracker extends Item {
 		}
 		return result;
 	}
-	
+
 	protected Item findById(String id) {
 		Item result = Item.EMPTY;
 		for (Item item : items) {
@@ -47,7 +58,7 @@ public class Tracker extends Item {
 		}
 		return result;
 	}
-	
+
 	protected Item findByName(String name) {
 		Item result = Item.EMPTY;
 		for (Item item : items) {
@@ -58,7 +69,7 @@ public class Tracker extends Item {
 		}
 		return result;
 	}
-	
+
 	private String generateId() {
 		return String.valueOf(System.currentTimeMillis() + RN.nextInt(100));
 	}
