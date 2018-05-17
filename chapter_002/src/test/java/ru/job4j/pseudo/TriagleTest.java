@@ -13,8 +13,8 @@ public class TriagleTest {
                 triagle.pic(),
                 is(
                         new StringBuilder()
-                        .append("  *  ")
-                        .append(" *** ")
+                        .append("  *  \r\n")
+                        .append(" *** \r\n")
                         .append("*****")
                         .toString()
                 )
