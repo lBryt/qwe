@@ -1,12 +1,12 @@
 package ru.job4j.models;
 
 public class Item {
+	public static final Item EMPTY = new Item();
 	private String id;
 	private String name;
 	private String description;
 	private long create;
-	public static final Item EMPTY = new Item();
-	
+
 	public Item() {
 		
 	}

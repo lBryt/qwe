@@ -4,9 +4,9 @@ import ru.job4j.models.*;
 import java.util.*;
 
 public class Tracker extends Item {
+	private static final Random RN = new Random();
 	private Item[] items = new Item[100];
 	private int position = 0;
-	private static final Random RN = new Random();
 
 	public Tracker() {
 	}
@@ -31,8 +31,6 @@ public class Tracker extends Item {
 	public void delete(String id) {
 		for (int index = 0; index != this.items.length; index++) {
 			if (this.items[index] != null && items[index].getId().equals(id)) {
-//				this.items[index] = items[position--];
-//				break;
 				System.arraycopy(this.items, index + 1, this.items, index, this.items.length - 1 - index);
 				position--;
 				break;

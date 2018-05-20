@@ -3,6 +3,8 @@ package ru.job4j.start;
 import org.junit.Test;
 import ru.job4j.models.Item;
 
+import java.util.Collections;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -32,6 +34,53 @@ public class TrackerTest {
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
         assertThat(tracker.getAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+    }
+
+    @Test
+    public void whenGetAllItemsThemReturnArrayWithItemsNotEqualsNull() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("test1", "testDescription");
+        tracker.add(item);
+        Item[] expected = {item};
+        assertThat(tracker.getAll(), is(expected));
+    }
+
+    @Test
+    public void whenDeleteFromArrayItemsThenArrayIsOneLess() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("test1", "testDescription");
+        Item delete = new Item("test2", "testDescription");
+        tracker.add(item);
+        tracker.add(delete);
+        tracker.delete(delete.getId());
+        Item[] expected = {item};
+        assertThat(tracker.getAll(), is(expected));
+    }
+    @Test
+    public void whenFindExistItemByIdThemReturnFoundItem() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("test1", "testDescription");
+        tracker.add(item);
+        assertThat(tracker.findById(item.getId()), is(item));
+    }
+
+    @Test
+    public void whenFindNoExistItemByIdThemReturnEmptyItem() {
+        Tracker tracker = new Tracker();
+        assertThat(tracker.findById("EmptyValue"), is(Item.EMPTY));
+    }
+
+    @Test
+    public void whenFindExistItemByNameThemReturnFoundItem() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("test1", "testDescription");
+        tracker.add(item);
+        assertThat(tracker.findByName(item.getName()), is(item));
+    }
+    @Test
+    public void whenFindNoExistItemByNameThemReturnEmptyItem() {
+        Tracker tracker = new Tracker();
+        assertThat(tracker.findByName("EmptyValue"), is(Item.EMPTY));
     }
 
     @Test
