@@ -13,6 +13,31 @@ public class StartUI {
 	private static final String ADD = "0";
 
 	/**
+	 *	Константа для отображения всех заявок.
+	 */
+	private static final String SHOW_ALL = "1";
+
+	/**
+	 * Константа для редактирования заявки.
+	 */
+	private static final String EDIT = "2";
+
+	/**
+	 * Константа для удаления заявки.
+	 */
+	private static final String DELETE = "3";
+
+	/**
+	 * Константа для поиска заявки по id.
+	 */
+	private static final String FIND_BY_ID = "4";
+
+	/**
+	 * Константа для поиска заявки по наименованию.
+	 */
+	private static final String FIND_BY_NAME = "5";
+
+	/**
 	 * Константа для выхода из цикла.
 	 */
 	private static final String EXIT = "6";
@@ -46,21 +71,21 @@ public class StartUI {
 			String answer = this.input.ask("Введите пункт меню : ");
 			if (ADD.equals(answer)) {
 				this.createItem();
-			} else if (answer.equals("1")) {
+			} else if (SHOW_ALL.equals(answer)) {
 				for (Item item : this.tracker.getAll()) {
 					System.out.println(item.getName() + " " + item.getId());
 				}
-			} else if (answer.equals("2")) {
+			} else if (EDIT.equals(answer)) {
 				this.tracker.replace(
 						this.input.ask("Введите id заявки которую нужно заменить : "),
 						this.tracker.findById(this.input.ask("Введите id заявки для замены : "))
 				);
-			} else if (answer.equals("3")) {
+			} else if (DELETE.equals(answer)) {
 				this.tracker.delete(this.input.ask("Введите id заявки которую нужно удалить : "));
-			} else if (answer.equals("4")) {
+			} else if (FIND_BY_ID.equals(answer)) {
 				Item item = this.tracker.findById(this.input.ask("Введите id заявки для поиска : "));
 				System.out.println("------------  заявка с getId : " + item.getId() + " " + item.getName() + "-----------");
-			} else if (answer.equals("5")) {
+			} else if (FIND_BY_NAME.equals(answer)) {
 				Item item = this.tracker.findByName(this.input.ask("Введите name заявки для поиска : "));
 				System.out.println("------------  заявка с getId : " + item.getId() + " " + item.getName() + "-----------");
 			} else if (EXIT.equals(answer)) {
