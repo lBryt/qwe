@@ -3,12 +3,10 @@ package ru.job4j.start;
 import org.junit.Test;
 import ru.job4j.models.Item;
 
-import java.util.Collections;
-
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
-public class TrackerTest {
+public class StartUITest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
         Tracker tracker = new Tracker();
