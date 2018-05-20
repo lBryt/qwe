@@ -1,5 +1,6 @@
 package ru.job4j.start;
 
+import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.models.Item;
 
@@ -7,28 +8,32 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class StartUITest {
+    private Tracker tracker;
+    private Item item;
+
+    @Before
+    public void init() {
+        tracker = new Tracker();
+        item = new Item("test1", "testDescription");
+    }
+
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDescription");
         tracker.add(item);
         assertThat(tracker.getAll()[0], is(item));
     }
 
     @Test
     public void whenReplaceNameThenReturnNewName() {
-        Tracker tracker = new Tracker();
-        Item previous = new Item("test1", "testDescription");
-        tracker.add(previous);
+        tracker.add(item);
         Item next = new Item("test2", "testDescription2");
-        next.setId(previous.getId());
-        tracker.replace(previous.getId(), next);
-        assertThat(tracker.findById(previous.getId()).getName(), is("test2"));
+        next.setId(item.getId());
+        tracker.replace(item.getId(), next);
+        assertThat(tracker.findById(item.getId()).getName(), is("test2"));
     }
 
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();     // создаём Tracker
         Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
         assertThat(tracker.getAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
@@ -36,8 +41,6 @@ public class StartUITest {
 
     @Test
     public void whenGetAllItemsThemReturnArrayWithItemsNotEqualsNull() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDescription");
         tracker.add(item);
         Item[] expected = {item};
         assertThat(tracker.getAll(), is(expected));
@@ -45,8 +48,6 @@ public class StartUITest {
 
     @Test
     public void whenDeleteFromArrayItemsThenArrayIsOneLess() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDescription");
         Item delete = new Item("test2", "testDescription");
         tracker.add(item);
         tracker.add(delete);
@@ -56,42 +57,30 @@ public class StartUITest {
     }
     @Test
     public void whenFindExistItemByIdThemReturnFoundItem() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDescription");
         tracker.add(item);
         assertThat(tracker.findById(item.getId()), is(item));
     }
 
     @Test
     public void whenFindNoExistItemByIdThemReturnEmptyItem() {
-        Tracker tracker = new Tracker();
         assertThat(tracker.findById("EmptyValue"), is(Item.EMPTY));
     }
 
     @Test
     public void whenFindExistItemByNameThemReturnFoundItem() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1", "testDescription");
         tracker.add(item);
         assertThat(tracker.findByName(item.getName()), is(item));
     }
     @Test
     public void whenFindNoExistItemByNameThemReturnEmptyItem() {
-        Tracker tracker = new Tracker();
         assertThat(tracker.findByName("EmptyValue"), is(Item.EMPTY));
     }
 
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        // создаём Tracker
-        Tracker tracker = new Tracker();
-        //Напрямую добавляем заявку
-        Item item = tracker.add(new Item("test name", "desc"));
-        //создаём StubInput с последовательностью действий
-        Input input = new StubInput(new String[]{"1", item.getId(), "test name", "desc", "6"});
-        // создаём StartUI и вызываем метод init()
+        tracker.add(item);
+        Input input = new StubInput(new String[]{"1", item.getId(), "test1", "testDescription2", "6"});
         new StartUI(input, tracker).init();
-        // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-        assertThat(tracker.findById(item.getId()).getName(), is("test name"));
+        assertThat(tracker.findById(item.getId()).getName(), is("test1"));
     }
 }
