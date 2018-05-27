@@ -6,17 +6,33 @@ public class Item {
 	private String name;
 	private String description;
 	private long create;
+	private String author;
 
 	public Item() {
 		
 	}
-	
+
 	public Item(String name, String description) {
 		this.name = name;
 		this.description = description;
 		//this.create = create;
 	}
-	
+
+	public Item(String name, String description, String author) {
+		this.name = name;
+		this.description = description;
+		this.author = author;
+		//this.create = create;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	public String getName() {
 		return this.name;
 	}

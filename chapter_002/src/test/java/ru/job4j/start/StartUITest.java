@@ -1,5 +1,6 @@
 package ru.job4j.start;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.models.Item;
@@ -15,33 +16,37 @@ public class StartUITest {
     public void init() {
         tracker = new Tracker();
         item = new Item("test1", "testDescription");
+        item.setId("asd");
+        tracker.add(item);
+    }
+
+    @After
+    public void after() {
+        tracker.delete("asd");
     }
 
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        tracker.add(item);
         assertThat(tracker.getAll()[0], is(item));
     }
 
     @Test
-    public void whenReplaceNameThenReturnNewName() {
-        tracker.add(item);
+    public void whenEditNameThenReturnNewName() {
         Item next = new Item("test2", "testDescription2");
         next.setId(item.getId());
-        tracker.replace(item.getId(), next);
+        tracker.edit(next);
         assertThat(tracker.findById(item.getId()).getName(), is("test2"));
     }
 
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
+        Input input = new StubInput(new String[]{"1", "y"});
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.getAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.getAll()[0].getName(), is("test1")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
 
     @Test
     public void whenGetAllItemsThemReturnArrayWithItemsNotEqualsNull() {
-        tracker.add(item);
         Item[] expected = {item};
         assertThat(tracker.getAll(), is(expected));
     }
@@ -49,7 +54,6 @@ public class StartUITest {
     @Test
     public void whenDeleteFromArrayItemsThenArrayIsOneLess() {
         Item delete = new Item("test2", "testDescription");
-        tracker.add(item);
         tracker.add(delete);
         tracker.delete(delete.getId());
         Item[] expected = {item};
@@ -57,7 +61,6 @@ public class StartUITest {
     }
     @Test
     public void whenFindExistItemByIdThemReturnFoundItem() {
-        tracker.add(item);
         assertThat(tracker.findById(item.getId()), is(item));
     }
 
@@ -68,8 +71,7 @@ public class StartUITest {
 
     @Test
     public void whenFindExistItemByNameThemReturnFoundItem() {
-        tracker.add(item);
-        assertThat(tracker.findByName(item.getName()), is(item));
+         assertThat(tracker.findByName(item.getName()), is(item));
     }
     @Test
     public void whenFindNoExistItemByNameThemReturnEmptyItem() {
@@ -78,9 +80,9 @@ public class StartUITest {
 
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        tracker.add(item);
-        Input input = new StubInput(new String[]{"1", item.getId(), "test1", "testDescription2", "6"});
-        new StartUI(input, tracker).init();
+        Input input = new StubInput(new String[]{"2", "0", "test1", "testD", "y"});
+        StartUI startUI = new StartUI(input, tracker);
+        startUI.init();
         assertThat(tracker.findById(item.getId()).getName(), is("test1"));
     }
 }

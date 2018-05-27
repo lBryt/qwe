@@ -28,6 +28,18 @@ public class Tracker extends Item {
 		}
 	}
 
+	public void edit(Item fresh) {
+		for (int index = 0; index != items.length; index++) {
+			Item item = items[index];
+			if (item != null && item.getId().equals(fresh.getId())) {
+				String author = items[index].getAuthor();
+				items[index] = fresh;
+				fresh.setAuthor(author);
+				break;
+			}
+		}
+	}
+
 	public void delete(String id) {
 		for (int index = 0; index != this.items.length; index++) {
 			if (this.items[index] != null && items[index].getId().equals(id)) {
