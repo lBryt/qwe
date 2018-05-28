@@ -5,7 +5,7 @@ package ru.job4j.start;
  * @since 0.1
  */
 public class StartUI {
-
+    private int[] range;
     private final Input input;
 
     /**
@@ -30,10 +30,11 @@ public class StartUI {
         Tracker tracker = new Tracker();
         MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();
+        range = menu.getRange();
         do {
             menu.show();
-            int key = Integer.valueOf(input.ask("Select "));
-            menu.select(key);
+            //int key = Integer.valueOf(input.ask("Select "));
+            menu.select(this.input.ask("Select ", range));
         } while (!"y".equals(this.input.ask("Exit?(y/n) ")));
     }
 
@@ -42,6 +43,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(new ConsoleInput()), new Tracker()).init();
     }
 }

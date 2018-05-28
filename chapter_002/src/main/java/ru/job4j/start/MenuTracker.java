@@ -46,6 +46,14 @@ public class MenuTracker {
         this.actions[4] = new FindById();
         this.actions[5] = new FindByName();
     }
+    
+    public int[] getRange() {
+        int[] result = new int[this.actions.length];
+        for (int index = 0; index != this.actions.length; index++) {
+            result[index] = index;
+        }
+        return result;
+    }
 
     public void select(int key) {
         this.actions[key].execute(this.input, this.tracker);
