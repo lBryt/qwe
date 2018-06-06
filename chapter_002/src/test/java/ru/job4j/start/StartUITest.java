@@ -5,6 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.models.Item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -27,7 +31,7 @@ public class StartUITest {
 
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        assertThat(tracker.getAll()[0], is(item));
+        assertThat(tracker.getAll().get(0), is(item));
     }
 
     @Test
@@ -42,12 +46,12 @@ public class StartUITest {
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Input input = new StubInput(new String[]{"1", "y"});
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.getAll()[0].getName(), is("test1")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        assertThat(tracker.getAll().get(0).getName(), is("test1")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
 
     @Test
     public void whenGetAllItemsThemReturnArrayWithItemsNotEqualsNull() {
-        Item[] expected = {item};
+        List<Item> expected = new ArrayList<>(Arrays.asList(item));
         assertThat(tracker.getAll(), is(expected));
     }
 
@@ -56,7 +60,7 @@ public class StartUITest {
         Item delete = new Item("test2", "testDescription");
         tracker.add(delete);
         tracker.delete(delete.getId());
-        Item[] expected = {item};
+        List<Item> expected = new ArrayList<>(Arrays.asList(item));
         assertThat(tracker.getAll(), is(expected));
     }
     @Test

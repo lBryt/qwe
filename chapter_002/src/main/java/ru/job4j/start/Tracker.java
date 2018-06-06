@@ -5,23 +5,19 @@ import java.util.*;
 
 public class Tracker extends Item {
 	private static final Random RN = new Random();
-	private Item[] items = new Item[100];
-	private int position = 0;
-
-	public Tracker() {
-	}
+	private List<Item> items = new ArrayList<>();
 
 	public Item add(Item item) {
 		item.setId(generateId());
-		this.items[position++] = item;
+		this.items.add(item);
 		return item;
 	}
 
 	public void replace(String id, Item item) {
 		if (findById(id) != Item.EMPTY) {
-			for (int index = 0; index != this.items.length; index++) {
-				if (this.items[index] != null && this.items[index].getId().equals(id)) {
-					this.items[index] = item;
+			for (int index = 0; index != this.items.size(); index++) {
+				if (this.items.get(index) != null && this.items.get(index).getId().equals(id)) {
+					this.items.set(index, item);
 					break;
 				}
 			}
@@ -29,11 +25,11 @@ public class Tracker extends Item {
 	}
 
 	public void edit(Item fresh) {
-		for (int index = 0; index != items.length; index++) {
-			Item item = items[index];
+		for (int index = 0; index != items.size(); index++) {
+			Item item = items.get(index);
 			if (item != null && item.getId().equals(fresh.getId())) {
-				String author = items[index].getAuthor();
-				items[index] = fresh;
+				String author = items.get(index).getAuthor();
+				items.set(index, fresh);
 				fresh.setAuthor(author);
 				break;
 			}
@@ -41,21 +37,16 @@ public class Tracker extends Item {
 	}
 
 	public void delete(String id) {
-		for (int index = 0; index != this.items.length; index++) {
-			if (this.items[index] != null && items[index].getId().equals(id)) {
-				System.arraycopy(this.items, index + 1, this.items, index, this.items.length - 1 - index);
-				position--;
+		for (int index = 0; index != this.items.size(); index++) {
+			if (this.items.get(index) != null && items.get(index).getId().equals(id)) {
+				this.items.remove(index);
 				break;
 			}
 		}
 	}
 
-	public Item[] getAll() {
-		Item[] result = new Item[this.position];
-		for (int index = 0; index != position; index++) {
-			result[index] = this.items[index];
-		}
-		return result;
+	public List<Item> getAll() {
+		return this.items;
 	}
 
 	protected Item findById(String id) {

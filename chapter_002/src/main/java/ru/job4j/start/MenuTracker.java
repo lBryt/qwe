@@ -2,12 +2,15 @@ package ru.job4j.start;
 
 import ru.job4j.models.Item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuTracker {
 
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[7];
-    private int position = 0;
+    private List<UserAction> actions = new ArrayList<>();
+
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
@@ -15,28 +18,28 @@ public class MenuTracker {
     }
 
     public void addAction(UserAction action) {
-        this.actions[position++] = action;
+        this.actions.add(action);
     }
 
     public void fillActions() {
-        this.actions[position++] = this.new AddItem(0, "Add new item.");
-        this.actions[position++] = this.new ShowItems(1, "Show all items.");
-        this.actions[position++] = this.new EditItem(2, "Edit the new item.");
-        this.actions[position++] = this.new Delete(3, "Please, enter the task's id for deleting: ");
-        this.actions[position++] = this.new FindById(4, "Find item by Id.");
-        this.actions[position++] = this.new FindByName(5, "Find items by name");
+        this.actions.add(this.new AddItem(0, "Add new item."));
+        this.actions.add(this.new ShowItems(1, "Show all items."));
+        this.actions.add(this.new EditItem(2, "Edit the new item."));
+        this.actions.add(this.new Delete(3, "Please, enter the task's id for deleting: "));
+        this.actions.add(this.new FindById(4, "Find item by Id."));
+        this.actions.add(this.new FindByName(5, "Find items by name"));
     }
     
     public int[] getRange() {
-        int[] result = new int[this.actions.length];
-        for (int index = 0; index != this.actions.length; index++) {
+        int[] result = new int[this.actions.size()];
+        for (int index = 0; index != this.actions.size(); index++) {
             result[index] = index;
         }
         return result;
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     public void show() {

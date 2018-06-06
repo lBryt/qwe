@@ -12,6 +12,42 @@ public class Item {
 		
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		Item item = (Item) o;
+
+		if (create != item.create) {
+			return false;
+		}
+		if (id != null ? !id.equals(item.id) : item.id != null) {
+			return false;
+		}
+		if (name != null ? !name.equals(item.name) : item.name != null) {
+			return false;
+		}
+		if (description != null ? !description.equals(item.description) : item.description != null) {
+			return false;
+		}
+		return author != null ? author.equals(item.author) : item.author == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (description != null ? description.hashCode() : 0);
+		result = 31 * result + (int) (create ^ (create >>> 32));
+		result = 31 * result + (author != null ? author.hashCode() : 0);
+		return result;
+	}
+
 	public Item(String name, String description) {
 		this.name = name;
 		this.description = description;
