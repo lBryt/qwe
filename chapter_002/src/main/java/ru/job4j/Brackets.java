@@ -19,7 +19,6 @@ public class Brackets {
      */
     public boolean validation(String value) {
         boolean result = true;
-        exit:
         for (int i = 0; i != value.length(); i++) {
             char symbol = value.charAt(i);
             int current = findIndexItem(symbol);
@@ -31,7 +30,7 @@ public class Brackets {
                         if (find == current) {
                             if (counter != 0) {
                                 result = false;
-                                break exit;
+                                break;
                             }
                         } else {
                             if (items[find].open == value.charAt(j)) {
@@ -42,6 +41,9 @@ public class Brackets {
                         }
                     }
                 }
+            }
+            if (!result) {
+                break;
             }
         }
         return result;
