@@ -28,4 +28,23 @@ public class SortUserTest {
         expected.add(user2);
         assertThat(expected, is(result));
     }
+    @Test
+    public void whenUserListSortByNameAndByAgeThemGetListSortedInAscendingOrder() {
+
+        User user1 = new User("Сергей", 25);
+        User user2 = new User("Иван", 30);
+        User user3 = new User("Сергей", 20);
+        User user4 = new User("Иван", 25);
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        Set<User> result = sort.sort(this.users);
+        Set<User> expected = new TreeSet<>();
+        expected.add(user4);
+        expected.add(user2);
+        expected.add(user3);
+        expected.add(user1);
+        assertThat(expected, is(result));
+    }
 }
