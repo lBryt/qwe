@@ -15,20 +15,19 @@ public interface Figure {
     }
 
     default Cell[] tracer(Cell source, Cell dest) {
-        Cell[] steps = new Cell[0];
-        boolean moveX = source.x != dest.x;
-        boolean moveY = source.y != dest.y;
+        int deltaX = Math.abs(source.x - dest.x);
+        int deltaY = Math.abs(source.y - dest.y);
+        int moveX = Integer.compare(dest.x, source.x);
+        int moveY = Integer.compare(dest.y, source.y);
         int x = source.x;
         int y = source.y;
+        int size = (deltaX > deltaY) ? deltaX : deltaY;
+        Cell[] steps = new Cell[size];
+        int index = 0;
         while (dest.y != y || dest.x != x) {
-            if (moveX) {
-                x += (source.x - dest.x < 0 ? 1 : -1);
-            }
-            if (moveY) {
-                y += (source.y - dest.y < 0 ? 1 : -1);
-            }
-            steps = Arrays.copyOf(steps, steps.length + 1);
-            steps[steps.length - 1] =  Cell.findCell(x, y)[0];
+            x += moveX;
+            y += moveY;
+            steps[index++] =  Cell.findCell(x, y)[0];
         }
         return steps;
     }

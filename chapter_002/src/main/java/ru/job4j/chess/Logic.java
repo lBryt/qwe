@@ -43,13 +43,15 @@ public class Logic {
     private boolean correctStep(Cell[] steps, Cell dest) {
         boolean result = true;
         if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
-            exit:
             for (Cell step : steps) {
                 for (Figure figure: this.figures) {
-                    if (step.equals(figure.position())) {
+                    if (figure != null && step.equals(figure.position())) {
                         result = false;
-                        break exit;
+                        break;
                     }
+                }
+                if (!result) {
+                    break;
                 }
             }
         } else {
