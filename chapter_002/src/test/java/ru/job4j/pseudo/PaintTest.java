@@ -40,10 +40,9 @@ public class PaintTest {
                 new String(this.out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("***")
-                                .append("***")
-                                .append("***")
-                                .append(System.lineSeparator())
+                                .append("***" + System.lineSeparator())
+                                .append("***" + System.lineSeparator())
+                                .append("***" + System.lineSeparator())
                                 .toString()
                 )
         );
@@ -55,12 +54,11 @@ public class PaintTest {
         assertThat(
                 new String(this.out.toByteArray()),
                 is(
-                        new StringJoiner(
-                                System.lineSeparator(), "",
-                                System.lineSeparator())
-                                .add("  *  ")
-                                .add(" *** ")
-                                .add("*****")
+                        new StringBuilder()
+                                .append("  *  " + System.lineSeparator())
+                                .append(" *** " + System.lineSeparator())
+                                .append("*****")
+                                .append(System.lineSeparator())
                                 .toString()
                 )
         );

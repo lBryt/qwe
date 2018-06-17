@@ -13,8 +13,8 @@ public class SquareTest {
                 square.pic(),
                 is(
                         new StringBuilder()
-                                .append("***")
-                                .append("***")
+                                .append("***" + System.lineSeparator())
+                                .append("***" + System.lineSeparator())
                                 .append("***")
                                 .toString()
                 )

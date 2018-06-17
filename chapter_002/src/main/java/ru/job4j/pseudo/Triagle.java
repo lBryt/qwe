@@ -4,8 +4,8 @@ public class Triagle implements Shape {
     @Override
     public String pic() {
         StringBuilder builder = new StringBuilder();
-        builder.append("  *  \n");
-        builder.append(" *** \n");
+        builder.append("  *  " + System.lineSeparator());
+        builder.append(" *** " + System.lineSeparator());
         builder.append("*****");
         return builder.toString();
     }
