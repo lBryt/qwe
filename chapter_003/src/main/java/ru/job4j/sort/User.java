@@ -26,6 +26,14 @@ public class User implements Comparable<User> {
         return name != null ? name.equals(user.name) : user.name == null;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
