@@ -24,7 +24,8 @@ public class Account {
 
     boolean transfer(Account destination, double amount) {
         boolean success = false;
-        if (amount > 0 && amount <= this.values && destination != null) {
+        if (amount > 0 && amount <= this.values && destination != null
+                && this.EMPTY != this && destination.EMPTY != destination) {
             success = true;
             this.values -= amount;
             destination.values += amount;

@@ -43,22 +43,16 @@ public class Bank {
         return this.users.get(findUser(passport));
     }
 
-    private Account getActualAccount(User user, Account account) {
-       List<Account> list = this.users.get(user);
-       return list.get(list.indexOf(account));
+    private Account getActualAccount(String passport, Account account) {
+        List<Account> list = this.users.get(findUser(passport));
+        int index = list == null ? -1 : list.indexOf(account);
+        return index == -1 ? Account.EMPTY : list.get(index);
     }
 
     public boolean transferMoney(String srcPassport, Account srcRequisite,
                                  String destPassport, Account destRequisite, double amount) {
-        boolean result = false;
-        List<Account> srcAccounts = this.users.get(findUser(srcPassport));
-        List<Account> destAccounts = this.users.get(findUser(destPassport));
-        if (srcAccounts != null && destAccounts != null
-                && srcAccounts.contains(srcRequisite) && destAccounts.contains(destRequisite)) {
-            result =  getActualAccount(findUser(srcPassport), srcRequisite).transfer(
-                    getActualAccount(findUser(destPassport), destRequisite), amount);
-        }
-        return result;
+        return getActualAccount(srcPassport, srcRequisite).transfer(
+                getActualAccount(destPassport, destRequisite), amount);
     }
 
     public Map<User, List<Account>> getUsers() {
